@@ -22,6 +22,7 @@ const ChatBox = () => {
 
   function handleKeyDown(e) {
     if (e.keyCode === 13) {
+      setTextMessage("");
       sendTextMessage(
         textMessage,
         user,
