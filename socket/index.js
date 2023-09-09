@@ -1,7 +1,10 @@
 require("dotenv").config();
+const http = require("http");
 const { Server } = require("socket.io");
 
-const io = new Server({ cors: process.env.CLIENT_URL });
+const server = http.createServer();
+
+const io = new Server(server, { cors: {origin: "*"}});
 
 let onlineUsers = [];
 
@@ -44,4 +47,4 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(process.env.PORT || 3000);
+server.listen(process.env.PORT, () => console.log(`Listening on ${process.env.PORT}`));

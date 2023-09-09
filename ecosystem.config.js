@@ -8,11 +8,11 @@ module.exports = {
     },
     {
       name: "chatAppServer",
-      script: "./server/index.js",
+      script: "cd server && yarn start",
     },
     {
       name: "chatAppSocker",
-      script: "./socket/index.js",
+      script: "cd socket && yarn start",
     },
   ],
 };
