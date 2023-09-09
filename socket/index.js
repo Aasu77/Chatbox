@@ -1,6 +1,7 @@
+require("dotenv").config();
 const { Server } = require("socket.io");
 
-const io = new Server({ cors: "http://localhost:5173" });
+const io = new Server({ cors: process.env.CLIENT_URL });
 
 let onlineUsers = [];
 
@@ -21,10 +22,12 @@ io.on("connection", (socket) => {
 
   // add message
 
-  socket.on("sendMessage",(message) => {
-    const user = onlineUsers.find(user => user.userId === message.recipientId)
+  socket.on("sendMessage", (message) => {
+    const user = onlineUsers.find(
+      (user) => user.userId === message.recipientId,
+    );
 
-    if(user){
+    if (user) {
       io.to(user.socketId).emit("getMessage", message);
       io.to(user.socketId).emit("getNotification", {
         senderId: message.senderId,
@@ -32,7 +35,7 @@ io.on("connection", (socket) => {
         date: new Date(),
       });
     }
-  })
+  });
 
   socket.on("disconnect", () => {
     onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
@@ -41,4 +44,4 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(3000);
+io.listen(process.env.PORT || 3000);
